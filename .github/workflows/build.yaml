@@ -1,0 +1,23 @@
+name: Build
+
+on:
+  pull_request:
+    branches:
+      - main
+      - dev
+  workflow_dispatch:
+
+env:
+    IMAGE_NAME: snuffleevees-paltanchez/scraper-mikbooks
+    IMAGE_TAG: 1.0.${{ github.run_number }}
+
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Build docker image
+        run: docker build -f Dockerfile -t $IMAGE_NAME:$IMAGE_TAG .
+
+    # TODO Add a step to push the image to a registry (e.g. ECR)
